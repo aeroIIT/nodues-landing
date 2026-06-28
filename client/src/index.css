@@ -1,0 +1,218 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+:root {
+  /* NoDues Refined Minimalist Design - Black/White + Blue (#070094) */
+  --primary: oklch(0 0 0); /* Pure black */
+  --primary-foreground: oklch(1 0 0); /* White */
+  --sidebar-primary: oklch(0 0 0);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --chart-1: #070094;
+  --chart-2: #070094;
+  --chart-3: #070094;
+  --chart-4: #070094;
+  --chart-5: #070094;
+  --radius: 0.5rem;
+  --background: oklch(1 0 0); /* White */
+  --foreground: oklch(0 0 0); /* Black */
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0 0 0);
+  --secondary: oklch(0.95 0.001 0); /* Very light gray */
+  --secondary-foreground: oklch(0.3 0.001 0);
+  --muted: oklch(0.9 0.001 0); /* Light gray */
+  --muted-foreground: oklch(0.55 0.001 0); /* Medium gray */
+  --accent: #070094; /* Blue */
+  --accent-foreground: oklch(1 0 0); /* White text on blue */
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(1 0 0);
+  --border: oklch(0.95 0.001 0); /* Very light gray border */
+  --input: oklch(0.98 0.001 0);
+  --ring: #070094;
+  --sidebar: oklch(1 0 0);
+  --sidebar-foreground: oklch(0 0 0);
+  --sidebar-accent: #070094;
+  --sidebar-accent-foreground: oklch(1 0 0);
+  --sidebar-border: oklch(0.95 0.001 0);
+  --sidebar-ring: #070094;
+}
+
+.dark {
+  --primary: oklch(1 0 0);
+  --primary-foreground: oklch(0 0 0);
+  --sidebar-primary: oklch(1 0 0);
+  --sidebar-primary-foreground: oklch(0 0 0);
+  --background: oklch(0.1 0.001 0);
+  --foreground: oklch(1 0 0);
+  --card: oklch(0.15 0.001 0);
+  --card-foreground: oklch(1 0 0);
+  --popover: oklch(0.15 0.001 0);
+  --popover-foreground: oklch(1 0 0);
+  --secondary: oklch(0.2 0.001 0);
+  --secondary-foreground: oklch(0.8 0.001 0);
+  --muted: oklch(0.25 0.001 0);
+  --muted-foreground: oklch(0.7 0.001 0);
+  --accent: #070094;
+  --accent-foreground: oklch(1 0 0); /* White text on blue */
+  --destructive: oklch(0.704 0.191 22.216);
+  --destructive-foreground: oklch(1 0 0);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: #070094;
+  --chart-1: #070094;
+  --chart-2: #070094;
+  --chart-3: #070094;
+  --chart-4: #070094;
+  --chart-5: #070094;
+  --sidebar: oklch(0.1 0.001 0);
+  --sidebar-foreground: oklch(1 0 0);
+  --sidebar-accent: #070094;
+  --sidebar-accent-foreground: oklch(1 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: #070094;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  [type="button"]:not(:disabled),
+  [type="submit"]:not(:disabled),
+  [type="reset"]:not(:disabled),
+  a[href],
+  select:not(:disabled),
+  input[type="checkbox"]:not(:disabled),
+  input[type="radio"]:not(:disabled) {
+    @apply cursor-pointer;
+  }
+
+  /* Serif font for headlines */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif;
+  }
+}
+
+@layer components {
+  .container {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  .flex {
+    min-height: 0;
+    min-width: 0;
+  }
+
+  @media (min-width: 640px) {
+    .container {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .container {
+      padding-left: 3rem;
+      padding-right: 3rem;
+      max-width: 1200px;
+    }
+  }
+
+  /* Elegant button styling - minimal and refined */
+  .btn-primary {
+    @apply px-6 py-3 rounded-lg bg-foreground text-background font-medium transition-opacity hover:opacity-80;
+  }
+
+  .btn-secondary {
+    @apply px-6 py-3 rounded-lg border border-foreground text-foreground font-medium transition-opacity hover:opacity-60;
+  }
+
+  .btn-accent {
+    @apply px-6 py-3 rounded-lg bg-accent text-accent-foreground font-medium transition-opacity hover:opacity-80;
+  }
+
+  /* Generous spacing between sections */
+  .section-spacing {
+    @apply py-16 md:py-24 lg:py-32;
+  }
+
+  /* Minimal card styling */
+  .card-minimal {
+    @apply border border-border p-8 rounded-lg;
+  }
+
+  /* Serif headline styling */
+  .headline-serif {
+    @apply font-serif text-4xl md:text-5xl lg:text-6xl leading-[1.1] tracking-tight;
+  }
+
+  /* Smaller section heading (everything below the hero) */
+  .heading-section {
+    @apply font-serif text-3xl md:text-4xl leading-tight tracking-tight;
+  }
+
+  /* Subtle page background: faint accent dot-grid painted directly on the page
+     wrapper (reliable — an element's background always sits behind its content),
+     gently fading out toward the very bottom. */
+  .page-bg {
+    background-color: #fff;
+    background-image: linear-gradient(to bottom, transparent 80%, #fff 100%),
+      radial-gradient(circle, rgba(7, 0, 148, 0.1) 1px, transparent 1.5px);
+    background-size: 100% 100%, 20px 20px;
+  }
+
+  /* Supporting text styling */
+  .text-muted-large {
+    @apply text-lg text-muted-foreground;
+  }
+}
