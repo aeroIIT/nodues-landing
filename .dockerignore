@@ -1,0 +1,36 @@
+# Dependencies — installed inside the image via pnpm
+node_modules
+.pnpm-store
+
+# Build artifacts — produced inside the image by `pnpm build`
+dist
+build
+*.tsbuildinfo
+
+# VCS / CI
+.git
+.gitignore
+.github
+
+# Editor / OS
+.vscode
+.idea
+.DS_Store
+
+# Env files — never ship into the image
+.env
+.env.*
+
+# Secrets / certs
+*.pem
+*.key
+*.crt
+
+# Docker config
+Dockerfile
+.dockerignore
+
+# Logs / docs
+*.log
+README.md
+DESIGN_SYSTEM.md
