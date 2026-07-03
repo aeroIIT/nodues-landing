@@ -36,7 +36,7 @@ export default function Home() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: wire to a real endpoint / form provider (Netlify Forms, Formspree,
+    // TODO: wire to a real endpoint / form provider (Formspree
     // or your own API) to actually capture enterprise waitlist leads.
     setSubmitted(true);
   };
