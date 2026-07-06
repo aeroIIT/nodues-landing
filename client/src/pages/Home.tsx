@@ -21,12 +21,13 @@ import {
 export default function Home() {
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState("");
   const [form, setForm] = useState({
     name: "",
+    phone: "",
     email: "",
-    company: "",
-    role: "",
-    volume: "",
+    referral: "",
   });
 
   const update =
@@ -34,11 +35,43 @@ export default function Home() {
     (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
       setForm((prev) => ({ ...prev, [key]: e.target.value }));
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: wire to a real endpoint / form provider (Formspree
-    // or your own API) to actually capture enterprise waitlist leads.
-    setSubmitted(true);
+    setSubmitting(true);
+    setError("");
+    // Inserts into vocallabs_website_leads via Hasura's anonymous role
+    // (public insert permission — no secret needed client-side).
+    const HASURA_URL =
+      import.meta.env.VITE_HASURA_URL ?? "https://db.vocallabs.ai/v1/graphql";
+    try {
+      const res = await fetch(HASURA_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          query: `mutation InsertWaitlistLead($object: vocallabs_website_leads_insert_input!) {
+            insert_vocallabs_website_leads_one(object: $object) { id }
+          }`,
+          variables: {
+            object: {
+              name: form.name,
+              phone_number: form.phone,
+              company_email_id: form.email,
+              referral: form.referral || null,
+              type: "nodues",
+            },
+          },
+        }),
+      });
+      const json = await res.json();
+      if (json.errors?.length) throw new Error(json.errors[0].message);
+      setSubmitted(true);
+    } catch (err) {
+      setError(
+        "Something went wrong. Please try again or email hello@nodues.com."
+      );
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const scrollToWaitlist = () =>
@@ -161,6 +194,14 @@ export default function Home() {
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-black focus:ring-1 focus:ring-black"
                       />
                       <input
+                        type="tel"
+                        required
+                        placeholder="Phone number"
+                        value={form.phone}
+                        onChange={update("phone")}
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-black focus:ring-1 focus:ring-black"
+                      />
+                      <input
                         type="email"
                         required
                         placeholder="Work email"
@@ -168,39 +209,28 @@ export default function Home() {
                         onChange={update("email")}
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-black focus:ring-1 focus:ring-black"
                       />
-                      <input
-                        type="text"
-                        required
-                        placeholder="Company"
-                        value={form.company}
-                        onChange={update("company")}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-black focus:ring-1 focus:ring-black"
-                      />
-                      <input
-                        type="text"
-                        placeholder="Your role (optional)"
-                        value={form.role}
-                        onChange={update("role")}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-black focus:ring-1 focus:ring-black"
-                      />
                       <select
-                        required
-                        value={form.volume}
-                        onChange={update("volume")}
+                        value={form.referral}
+                        onChange={update("referral")}
                         className={`w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-black focus:ring-1 focus:ring-black ${
-                          form.volume ? "text-black" : "text-gray-400"
+                          form.referral ? "text-black" : "text-gray-400"
                         }`}
                       >
-                        <option value="" disabled>
-                          Accounts in collections (monthly)
-                        </option>
-                        <option value="<10k">Under 10,000</option>
-                        <option value="10k-100k">10,000 – 100,000</option>
-                        <option value="100k-1m">100,000 – 1M</option>
-                        <option value="1m+">1M+</option>
+                        <option value="">How did you hear about us? (optional)</option>
+                        <option value="google">Google / search</option>
+                        <option value="linkedin">LinkedIn</option>
+                        <option value="friends">Friend or colleague</option>
+                        <option value="other">Other</option>
                       </select>
-                      <button type="submit" className="btn-primary w-full">
-                        Join the Waitlist
+                      {error && (
+                        <p className="text-sm text-red-600">{error}</p>
+                      )}
+                      <button
+                        type="submit"
+                        disabled={submitting}
+                        className="btn-primary w-full disabled:opacity-60"
+                      >
+                        {submitting ? "Joining…" : "Join the Waitlist"}
                       </button>
                       <p className="text-xs text-gray-500 text-center">
                         Enterprise only. No spam—we'll only reach out about access.
