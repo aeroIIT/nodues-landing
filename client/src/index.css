@@ -215,4 +215,22 @@
   .text-muted-large {
     @apply text-lg text-muted-foreground;
   }
+
+  /* Horizontally scrolling logo strip */
+  .marquee-track {
+    animation: marquee 24s linear infinite;
+  }
+
+  .marquee-row:hover .marquee-track {
+    animation-play-state: paused;
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
 }
