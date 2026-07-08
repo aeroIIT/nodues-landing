@@ -244,6 +244,52 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Partners Section */}
+      <section className="section-spacing !py-12 md:!py-16 overflow-hidden">
+        <div className="container">
+          <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 text-center mb-10">
+            <p className="text-sm text-gray-600 uppercase tracking-wide mb-4">
+              Our Network
+            </p>
+            <h2 className="heading-section">
+              Trusted by lenders and fintechs across India.
+            </h2>
+          </div>
+          <div className="marquee-row animate-in fade-in slide-in-from-bottom-4 duration-700 delay-150 fill-mode-both relative overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
+            <div className="marquee-track flex w-max gap-4 md:gap-6">
+              {[
+                { name: "BharatPe", className: "font-sans font-extrabold italic" },
+                { name: "Paytm", className: "font-sans font-bold" },
+                { name: "Bajaj Finserv", className: "font-serif font-semibold" },
+                { name: "HDFC Bank", className: "font-sans font-black tracking-wide" },
+                { name: "ICICI Bank", className: "font-sans font-bold tracking-wide" },
+                { name: "Axis Bank", className: "font-sans font-bold tracking-widest" },
+              ]
+                .concat([
+                  { name: "BharatPe", className: "font-sans font-extrabold italic" },
+                  { name: "Paytm", className: "font-sans font-bold" },
+                  { name: "Bajaj Finserv", className: "font-serif font-semibold" },
+                  { name: "HDFC Bank", className: "font-sans font-black tracking-wide" },
+                  { name: "ICICI Bank", className: "font-sans font-bold tracking-wide" },
+                  { name: "Axis Bank", className: "font-sans font-bold tracking-widest" },
+                ])
+                .map((partner, i) => (
+                  <div
+                    key={i}
+                    className="w-[180px] md:w-[220px] shrink-0 flex items-center justify-center transition-transform duration-300 hover:-translate-y-1"
+                  >
+                    <span
+                      className={`text-gray-500 hover:text-gray-800 transition-colors text-center text-xl md:text-2xl ${partner.className}`}
+                    >
+                      {partner.name}
+                    </span>
+                  </div>
+                ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* The Problem Section */}
       <section className="section-spacing">
         <div className="container">
